@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="align-items: flex-start">
+  <div class="container px-0" style="align-items: flex-start">
     <div id="view-port">
       <l-map
         :zoom="zoom"
@@ -13,21 +13,25 @@
           :lat-lng="point.coordinates"
           :key="`${point.name}-map`"
           v-for="point in startingPoints"
-        ></l-marker>
+        >
+          <l-tooltip>{{ point.name }}</l-tooltip>
+        </l-marker>
       </l-map>
     </div>
   </div>
 </template>
 
 <script>
-import { LMap, LTileLayer, LMarker } from "vue2-leaflet"
+import { mapActions } from "vuex"
+import { LMap, LTileLayer, LMarker, LTooltip } from "vue2-leaflet"
 
 export default {
   props: ["startingPoints"],
   components: {
     LMap,
     LTileLayer,
-    LMarker
+    LMarker,
+    LTooltip
   },
   data() {
     return {
@@ -38,6 +42,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["setMapBoundaries"]),
     zoomUpdated(zoom) {
       this.zoom = zoom
     },
@@ -46,6 +51,7 @@ export default {
     },
     boundsUpdated(bounds) {
       this.bounds = bounds
+      this.setMapBoundaries(this.bounds)
     }
   }
 }
@@ -63,7 +69,7 @@ export default {
   position: -webkit-sticky;
   position: sticky;
   width: 100%;
-  top: 100px;
+  top: 160px;
   height: 650px;
   align-self: flex-start;
 }
