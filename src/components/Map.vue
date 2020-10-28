@@ -10,8 +10,8 @@
       >
         <l-tile-layer :url="url"></l-tile-layer>
         <l-marker
-          :lat-lng="point.coordinates"
-          :key="`${point.name}-map`"
+          :lat-lng="toLonLat(point.coordinates).reverse()"
+          :key="`${point.link}-map`"
           v-for="point in startingPoints"
         >
           <l-tooltip>{{ point.name }}</l-tooltip>
@@ -24,6 +24,7 @@
 <script>
 import { mapActions } from "vuex"
 import { LMap, LTileLayer, LMarker, LTooltip } from "vue2-leaflet"
+import { toLonLat } from "ol/proj"
 
 export default {
   props: ["startingPoints"],
@@ -52,7 +53,8 @@ export default {
     boundsUpdated(bounds) {
       this.bounds = bounds
       this.setMapBoundaries(this.bounds)
-    }
+    },
+    toLonLat
   }
 }
 </script>

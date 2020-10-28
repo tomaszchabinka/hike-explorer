@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-list
-      :key="startingPoint.name"
+      :key="startingPoint.link"
       v-for="startingPoint in visibleStartingPoints"
     >
       <v-card elevation="2" class="mx-auto">
