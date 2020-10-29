@@ -13,7 +13,20 @@
           :lat-lng="toLonLat(point.coordinates).reverse()"
           :key="`${point.link}-map`"
           v-for="point in startingPoints"
+          :zIndexOffset="point.link == selectedStartingPointCard ? 1000 : 0"
         >
+          <l-icon :icon-anchor="[18, 36]" :tooltip-anchor="[18, -18]">
+            <v-icon
+              large
+              :color="
+                point.link == selectedStartingPointCard
+                  ? 'red'
+                  : 'blue lighten-2'
+              "
+            >
+              mdi-map-marker
+            </v-icon>
+          </l-icon>
           <l-tooltip>{{ point.name }}</l-tooltip>
         </l-marker>
       </l-map>
@@ -22,8 +35,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex"
-import { LMap, LTileLayer, LMarker, LTooltip } from "vue2-leaflet"
+import { mapActions, mapState } from "vuex"
+import { LMap, LTileLayer, LMarker, LTooltip, LIcon } from "vue2-leaflet"
 import { toLonLat } from "ol/proj"
 
 export default {
@@ -32,7 +45,8 @@ export default {
     LMap,
     LTileLayer,
     LMarker,
-    LTooltip
+    LTooltip,
+    LIcon
   },
   data() {
     return {
@@ -42,6 +56,7 @@ export default {
       bounds: null
     }
   },
+  computed: mapState(["selectedStartingPointCard"]),
   methods: {
     ...mapActions(["setMapBoundaries"]),
     zoomUpdated(zoom) {

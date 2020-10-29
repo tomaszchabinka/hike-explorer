@@ -6,7 +6,7 @@
     <v-container style="padding: 64px 0px 0px;">
       <v-row style="min-height: 710px">
         <v-col class="col-5">
-          <List :startingPoints="visibleStartingPoints" />
+          <List :startingPoints="visibleStartingPoints" :page="1" />
         </v-col>
         <v-col class="col-7">
           <Map :startingPoints="visibleStartingPoints" />
